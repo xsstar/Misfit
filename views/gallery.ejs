@@ -1,0 +1,302 @@
+<%- include('partials/_header'); %>
+<%- include('partials/_navigation'); %>
+<% if(user) { %> 
+   <% if(user.role ==='member') { %> 
+
+      <div class="back_re">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="title">
+                     <h2><%= user.name %><span class="m_1">  MEMBER</span></h2>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+        <!-- gallery member-->
+        <div  class="gallery">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="titlepage">
+                     <h3 style="color: aliceblue;"> Trainings Enrolled by:  <%= user.name %></h3>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="tz-gallery">
+                  <div class="col-sm-12">
+                     <div class="row">
+                        <% for (let i=0; i< user.trainings.length; i++) { %>
+                           
+                           <div class="col-md-4">
+                              <div id="trai" class="trainer_box">
+                                 <div class="trainer_img">
+                                    <figure >
+                                    <img  src="<%= user.trainings[i].image %>" alt="#"/> 
+                                 
+                                    </figure>
+                                   
+                                 </div>
+                                 <div class="trainer">
+                                    <h3 ><%= user.trainings[i].name %> </h3>
+                                    <p> <%= user.trainings[i].description %></p><br>
+
+                                    <div>
+                                       <form method="POST" action="/trainings/release">
+                                         <input type="hidden" name="training_id" value="<%= user.trainings[i]._id %>">
+                                         <button  onclick="return confirm('ARE YOU SURE')" class="btn btn-lg btn-danger rounded-0 text-white"><span>RELEASE</span></button>
+                                       </form>
+                                     </div>
+                                    
+                                 </div>
+                              </div>
+                           </div>
+                        <% } %>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end gallery member-->
+
+      <% } %>
+
+      <% if(user.role ==='trainer') { %> 
+
+         <div class="back_re">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="title">
+                        <h2><%= user.name %><span class="m_1"> TRAINER</span></h2>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+        
+
+         <!-- Modal Button  -->
+						<div style="margin-top: 10px;" class="col-lg-12 text-center ">
+							<button class="btn btn-lg btn-warning rounded-0 text-white" href="#"
+								data-toggle="modal" data-target="#addTraining"><span>CREATE NEW
+									TRAINING</span></button>
+						</div>
+                  <div class="offset-2 col-lg-8">
+                     <% if (flashMessages) { %>
+                        <% if (flashMessages.success) { %>
+                           <div class="alert alert-success">
+                              <%= flashMessages.success %>
+                           </div>
+            
+                        <% } else if (flashMessages.error) { %>
+                           <div class="alert alert-danger">
+                              <%= flashMessages.error %>
+                           </div>
+                        <% } %>
+            
+                     <% } %>
+                  </div>
+
+       
+
+                  <!-- ADD Modal -->
+			<div class="modal fade" id="addTraining" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-body customer-box">
+               <!-- Tab panes -->
+               <div class="tab-content">
+                  <div class="tab-pane active" id="Login">
+                     <form method="POST" action="/trainings" class="form-horizontal" encType="multipart/form-data">
+                        <div class="form-group">
+                           <div class="col-sm-12">
+                              <input type="text" name="name" class="form-control"  placeholder="Training Name">
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <div class="col-sm-12">
+                              <input type="hidden" name="role" class="form-control"  value="<%= user.role %>">
+                           </div>
+                        </div>
+                        <div class="from-group">
+                           <div class="col-sm-12">
+                           <input type="file" name="image" class="form-control-file rounded-0">
+                           <label for="image"></label>
+                        </div>
+                         </div><br>
+                        <div class="form-group">
+                           <div class="col-sm-12">
+                              <textarea rows="8" name="description" class="form-control"
+                              placeholder="Training Description" required></textarea>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-sm-10">
+                              <button style="margin-left:15px;" type="submit" class="btn btn-primary btn-radius">
+                                 Submit
+                              </button>
+                              <button  type="submit" class="btn btn-dark btn-radius"
+                                 data-dismiss="modal" aria-hidden="true">
+                                 Cancel
+                              </button>
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+            </div>
+            </div>
+            </div>
+
+              <!-- gallery Training-->
+      <div  class="gallery">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="titlepage">
+                     <p>TRAINING FROM: <%= user.name %></p>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               
+                        <% for (let i=0; i< trainings.length; i++) { %>
+                           <div class="col-md-4">
+                              <div id="trai" class="trainer_box">
+                                 <div class="trainer_img">
+                                    <figure >
+                                       <a href="/trainings/<%= trainings[i].slug %>">
+                                    <img  src="<%= trainings[i].image %>" alt="#"/>
+                                       </a>
+                                    </figure>
+                                   
+                                 </div>
+                                 <div class="trainer">
+                                    <h3 ><%= trainings[i].name %> </h3>
+                                    <p> <%= trainings[i].description.substring(0,20) %></p><br>
+                                    
+                                 </div>
+
+                                 <div class="clearfix">
+                                    <ul style="list-style-type: none;">
+                                       <li style="float: left;"><button class="btn btn-primary text-white btn-sm "
+                                          data-toggle="modal" data-target="#updatetraining<%= trainings[i]._id %>"
+                                          ><span>UPDATE</span></button></li>
+                                       <li style="float: right;"><a href="/trainings/<%= trainings[i].slug %>?_method=DELETE" 
+                                          onclick="return confirm('ARE YOU SURE')"
+                                          class="btn btn-danger btn-sm text-white"><span>DELETE</span></a></li>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div>
+
+        <!-- UPDATE Modal -->
+<div class="modal fade" id="updatetraining<%= trainings[i]._id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-body customer-box">
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane active" id="Login">
+						<form method="POST" action="/trainings/<%= trainings[i].slug %>?_method=PUT" class="form-horizontal" encType="multipart/form-data">
+							<div class="form-group">
+								<div class="col-sm-12">
+									<input type="text" name="name" value="<%= trainings[i].name %>" class="form-control"  placeholder="Training Name">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-12">
+									<input type="hidden" name="role" class="form-control"  value="<%= user.role %>">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-12">
+									<textarea rows="8" name="description" class="form-control"
+									placeholder="Training Description" required><%= trainings[i].description %></textarea>
+								</div>
+							</div>
+                     <div class="form-floating mb-3">
+                        <img class="img-fluid rounded mb-5" src="<%= trainings[i].image %>" alt="..." />
+                        <input type="file" name="image" class="form-control">                                                        
+                    </div>
+						
+							<div class="row">
+								<div class="col-sm-10">
+									<button type="submit" class="btn btn-success btn-radius  ">
+										Update Training
+									</button>
+									<button type="submit" class="btn btn-dark btn-radius "
+										data-dismiss="modal" aria-hidden="true">
+										Cancel
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+                        <% } %>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end gallery Training-->
+
+      
+   
+         <% } %>
+
+<!--ADMİN GALLERY-->
+         <% if(user.role==='admin' ) { %>
+
+            <div class="back_re">
+               <div class="container">
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="title">
+                           <h2><%= user.name %><span class="m_1">  ADMİN</span></h2>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <table class="table">
+               <thead>
+                 <tr>
+                 <th scope="col">ID#</th>
+                 <th scope="col">Email</th>
+                 <th scope="col">Role</th>
+                 <th scope="col">Delete</th>
+                 </tr>
+               </thead>
+               <tbody>
+             <% for (let i=0; i< users.length; i++) { %>
+                 <tr>
+                 <th scope="row"><%=users[i]._id %></th>
+                 <td><%=users[i].email %></td>
+                 <td><%=users[i].role %></td>
+                 <td><a href="/users/<%= users[i]._id %>?_method=DELETE" 
+                   onclick="return confirm('ARE YOU SURE')"
+                   class="btn btn-danger rounded-0 text-white"><span>DELETE</span></a></td>
+                 </tr>
+             <% } %>
+               </tbody>
+              </table>
+
+
+            <% } %>
+    <!--ADMİN GALLERY END -->
+      <% } %>
+      <%- include('partials/_footer'); %>
