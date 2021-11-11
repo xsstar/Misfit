@@ -1,5 +1,5 @@
 
-#PatikaDev 
+# PatikaDev 
 ## Node.js Backend Patikası Projeleri-Misfit 
 ---
 
@@ -15,9 +15,8 @@
 - nodemailer
 - bcrypt
 - connect-flash
-- slugif
-- Connect-Flash
-- Nodemailer
+- slugify
+
 
 ---
 

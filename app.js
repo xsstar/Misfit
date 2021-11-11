@@ -13,14 +13,14 @@ const app = express();
 
 //Connect DB
 mongoose
-  .connect('mongodb://localhost/misfit-db', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-  })
+  .connect('mongodb://localhost/misfit-db')
+  
   .then(() => {
+
     console.log('DB Connected Successfully');
+  })
+  .catch((err) => {
+    console.log(err);
   });
 
 //Template Engine

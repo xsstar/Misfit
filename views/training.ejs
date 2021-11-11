@@ -26,7 +26,7 @@
           <figure><h2><%=training.user.name %></h2><img src="<%= training.image %>" alt="#" />
           </figure>
         </div><br>
-        <% if (user.role === 'member' && !(user.trainings.includes(training._id)) ) { %> 
+        <% if (user && !(user.trainings.includes(training._id)) ) { %> 
         
           <form method="POST" action="/trainings/enroll">
             <input type="hidden" name="training_id" value="<%= training._id %>">
