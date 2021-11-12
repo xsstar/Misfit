@@ -4,7 +4,7 @@
   "description": "Node.js Backend Patikası Projeleri-Misfit",
   "main": "app.js",
   "scripts": {
-    "start": "supervisor app.js"
+    "start": "node app.js"
   },
   "keywords": [
     "Misfit-App"
